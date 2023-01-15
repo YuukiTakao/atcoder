@@ -17,7 +17,18 @@ func readLine() string {
 	}
 	return string(r)
 }
-
+func baseNInt(n int, base int) int {
+	result := ""
+	for n > 0 {
+		result = intToStr(n%base) + result
+		n = n / 8
+	}
+	oct := 0
+	if len(result) > 0 {
+		oct = strToInt(result)
+	}
+	return oct
+}
 func main() {
 	in := bufio.NewReader(os.Stdin)
 	var N, Q int

@@ -1,3 +1,5 @@
 .vscode/
 .idea/
 */**/tests/
+main
+a.out
