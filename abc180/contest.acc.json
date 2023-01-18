@@ -9,7 +9,11 @@
       "id": "abc180_a",
       "label": "A",
       "title": "box",
-      "url": "https://atcoder.jp/contests/abc180/tasks/abc180_a"
+      "url": "https://atcoder.jp/contests/abc180/tasks/abc180_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
     },
     {
       "id": "abc180_b",
