@@ -15,38 +15,25 @@ func main() {
 	q := scanInt()
 	r := scanInt()
 	s := scanInt()
-	fmt.Printf("%d %d %d %d %d\n", n, p, q, r, s)
+	// fmt.Printf("%d %d %d %d %d\n", n, p, q, r, s)
 
-	pq := make([]int, 0, n+1)
-	rs := make([]int, 0, n+1)
 	a := make([]int, n+1)
 	for i := 1; i <= n; i++ {
 		a[i] = scanInt()
-		// fmt.Printf("%d\n", a[i])
 	}
 
-	for i := 1; i <= n; i++ {
-		if p <= i && i <= q {
-			pq = append(pq, a[i])
-			// fmt.Printf("pq=%d\n", a[i])
-		}
-		if r <= i && i <= s {
-			rs = append(rs, a[i])
-			// fmt.Printf("rs=%d\n", a[i])
-		}
-	}
+	ans := make([]int, 0, n)
+	ans = append(ans, a[1:p]...)
+	ans = append(ans, a[r:s+1]...)
+	ans = append(ans, a[q+1:r]...)
+	ans = append(ans, a[p:q+1]...)
+	ans = append(ans, a[s+1:]...)
 
-	for i := 1; i <= n; i++ {
-		if i >= 2 {
+	for i, v := range ans {
+		if i >= 1 {
 			fmt.Printf(" ")
 		}
-		if p <= i && i <= q {
-			fmt.Printf("%d", rs[i-p])
-		} else if r <= i && i <= s {
-			fmt.Printf("%d", pq[i-r])
-		} else {
-			fmt.Printf("%d", a[i])
-		}
+		fmt.Printf("%d", v)
 	}
 	fmt.Printf("\n")
 }
