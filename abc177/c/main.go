@@ -7,23 +7,26 @@ import (
 	"strconv"
 )
 
+var MOD int = 100000007
+
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
+	n := scanInt()
 
-	n := scanText()
+	L := make([]int, n)
 
-	sum := 0
-	for _, v := range n {
-		sum += int(v - 48)
-		// fmt.Printf("v-48=%d sum=%d\n", v-48, sum)
+	sum := 1
+	for i := 0; i < n-1; i++ {
+		L[i] = scanInt()
+		sum = sum * L[i] % MOD
 	}
-	if sum%9 == 0 {
-		fmt.Printf("Yes\n")
-	} else {
-		fmt.Printf("No\n")
+	for j := 1; j < n; j++ {
+		fmt.Printf("i=%d j=%d L[i]=%d L[j]=%d\n", i, j, L[i], L[j])
+		sum = 
 	}
-	// fmt.Printf("%d\n", sum)
+
+	fmt.Printf("%d\n", sum)
 }
 
 var sc = bufio.NewScanner(os.Stdin)

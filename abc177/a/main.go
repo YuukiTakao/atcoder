@@ -10,20 +10,18 @@ import (
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
+	d := scanInt()
+	t := scanInt()
+	s := scanInt()
 
-	n := scanText()
-
-	sum := 0
-	for _, v := range n {
-		sum += int(v - 48)
-		// fmt.Printf("v-48=%d sum=%d\n", v-48, sum)
-	}
-	if sum%9 == 0 {
+	a := float64(d) / float64(s)
+	if a <= float64(t) {
 		fmt.Printf("Yes\n")
 	} else {
 		fmt.Printf("No\n")
 	}
-	// fmt.Printf("%d\n", sum)
+	// fmt.Printf("%f\n", a)
+	// fmt.Printf("%d %d %d\n", d, t, s)
 }
 
 var sc = bufio.NewScanner(os.Stdin)

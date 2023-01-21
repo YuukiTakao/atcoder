@@ -5,25 +5,17 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
+	_ = scanInt()
+	s := scanText()
+	// fmt.Printf("%d %s\n", n, s)
 
-	n := scanText()
-
-	sum := 0
-	for _, v := range n {
-		sum += int(v - 48)
-		// fmt.Printf("v-48=%d sum=%d\n", v-48, sum)
-	}
-	if sum%9 == 0 {
-		fmt.Printf("Yes\n")
-	} else {
-		fmt.Printf("No\n")
-	}
-	// fmt.Printf("%d\n", sum)
+	fmt.Printf("%s\n", strings.ReplaceAll(s, "na", "nya"))
 }
 
 var sc = bufio.NewScanner(os.Stdin)

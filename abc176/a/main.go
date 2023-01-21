@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
@@ -13,13 +14,14 @@ func main() {
 	x := scanInt()
 	t := scanInt()
 
-	var wari int
-	if n%x == 0 {
-		wari = n / x
-	} else {
-		wari = n/x + 1
-	}
+	// var wari int
+	// if n%x == 0 {
+	// 	// wari =
+	// } else {
+	// 	wari = n/x + 1
+	// }
 	// fmt.Printf("%d %d %d\n", n, x, t)
+	wari := int(math.Ceil(float64(n / x)))
 	fmt.Printf("%d\n", wari*t)
 }
 
