@@ -13,31 +13,29 @@ func main() {
 	n := scanInt()
 	a := scanInt()
 	b := scanInt()
-	fmt.Printf("%d %d %d\n", n, a, b)
+	// fmt.Printf("%d %d %d\n", n, a, b)
 
 	sum := 0
-	for i := 0; i < n; i++ {
-		fmt.Printf("%s\n", i+'0')
+	for i := 1; i <= n; i++ {
+		// fmt.Printf("%d\n", digitSum(i))
+		dsum := digitSum(i)
+		if a <= dsum && dsum <= b {
+			sum += i
+		}
 	}
-
-	// fmt.Printf("%d\n", digit(1))
-	// fmt.Printf("%d\n", digit(12))
-	// fmt.Printf("%d\n", digit(111))
-	// fmt.Printf("%d\n", digit(1111))
-
 	fmt.Printf("%d\n", sum)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
 
-// func digit_sum(n string) int {
-// 	digit := 0
-// 	for n > 0 {
-// 		n /= 10
-// 		digit++
-// 	}
-// 	return digit
-// }
+func digitSum(n int) int {
+	nstr := strconv.Itoa(n)
+	sum := 0
+	for _, v := range nstr {
+		sum += int(v - '0')
+	}
+	return sum
+}
 
 func scanInt() int {
 	sc.Scan()
