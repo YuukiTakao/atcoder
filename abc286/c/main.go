@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	sc.Buffer(make([]byte, 128), 500000)
+	sc.Buffer(make([]byte, 4096), 1000000)
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
 	a := scanInt()
@@ -18,37 +18,28 @@ func main() {
 	// fmt.Printf("%d %d %d\n", n, a, b)
 	// fmt.Printf("%s\n", s)
 
-	cost := -1
-	rcount := 0
+	minCost := a*n + b*n
+	rcnt := 0
 	for i := 0; i < n; i++ {
+		// rotated := s[i:] + s[0:i]
 		var sb strings.Builder
 		sb.WriteString(s[i:])
-		sb.WriteString(string(s[:i]))
-		rtStr := sb.String()
-		s = rtStr
-		rcount++
-		fmt.Printf("i=%d rotate=%s s=%s\n", i, rtStr, s)
+		sb.WriteString(s[0:i])
+		rotated := sb.String()
 
-		var mid int
-		if n%2 == 0 {
-			mid = n / 2
-		} else {
-			mid = n/2 + 1
-		}
 		diff := 0
-		for j := 0; j < mid; j++ {
-			left := j
-			right := n - j - 1
-
-			if s[left] != s[right] {
+		for left, right := 0, n-1; left < right; left, right = left+1, right-1 {
+			if rotated[left] != rotated[right] {
 				diff++
 			}
-			// fmt.Printf("left=%d right=%d s[left=%c s[right]=%c \n", left, right, s[left], s[right])
 		}
-		fmt.Printf("%d\n", diff)
-		min := minOf(a, b)
-		fmt.Printf("%d\n", min*diff)
+		cost := rcnt*a + diff*b
+		if minCost > cost {
+			minCost = cost
+		}
+		rcnt++
 	}
+	fmt.Printf("%d\n", minCost)
 }
 
 func minOf(vars ...int) int {

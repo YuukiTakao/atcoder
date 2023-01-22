@@ -22,14 +22,20 @@ func main() {
 		a[i] = scanInt()
 	}
 
-	ans := make([]int, 0, n)
-	ans = append(ans, a[1:p]...)
-	ans = append(ans, a[r:s+1]...)
-	ans = append(ans, a[q+1:r]...)
-	ans = append(ans, a[p:q+1]...)
-	ans = append(ans, a[s+1:]...)
+	b := make([]int, 0, n)
+	fmt.Printf("%v\n", a[1:p])
+	fmt.Printf("%v\n", a[r:s+1])
+	fmt.Printf("%v\n", a[q+1:r])
+	fmt.Printf("%v\n", a[p:q+1])
+	fmt.Printf("%v\n", a[s+1:])
 
-	for i, v := range ans {
+	b = append(b, a[1:p]...)
+	b = append(b, a[r:s+1]...)
+	b = append(b, a[q+1:r]...)
+	b = append(b, a[p:q+1]...)
+	b = append(b, a[s+1:]...)
+
+	for i, v := range b {
 		if i >= 1 {
 			fmt.Printf(" ")
 		}
