@@ -8,13 +8,8 @@ import (
 	"strconv"
 )
 
-func main() {
-	sc.Buffer(make([]byte, 128), 500000)
-	sc.Split(bufio.ScanWords)
-	n := scanInt()
-	// fmt.Printf("%d\n", n)
-
-	ans := make([]int, 0, 16)
+func DivisorEnumeration(n int) []int {
+	ans := make([]int, 0, 64)
 	for i := 1; i*i <= n; i++ {
 		if n%i == 0 {
 			ans = append(ans, i)
@@ -23,9 +18,17 @@ func main() {
 			}
 		}
 	}
+	return ans
+}
 
-	sort.Ints(ans)
-	for _, v := range ans {
+func main() {
+	sc.Buffer(make([]byte, 128), 500000)
+	sc.Split(bufio.ScanWords)
+	n := scanInt()
+	// fmt.Printf("%d\n", n)
+	divs := DivisorEnumeration(n)
+	sort.Ints(divs)
+	for _, v := range divs {
 		fmt.Printf("%d\n", v)
 	}
 }
