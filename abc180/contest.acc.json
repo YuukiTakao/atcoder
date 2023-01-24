@@ -19,7 +19,11 @@
       "id": "abc180_b",
       "label": "B",
       "title": "Various distances",
-      "url": "https://atcoder.jp/contests/abc180/tasks/abc180_b"
+      "url": "https://atcoder.jp/contests/abc180/tasks/abc180_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests"
+      }
     },
     {
       "id": "abc180_c",

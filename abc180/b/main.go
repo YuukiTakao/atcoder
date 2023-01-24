@@ -3,41 +3,55 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
-	"sort"
 	"strconv"
 )
 
+func maxSlice(s []int) int {
+	max := 0
+	for _, v := range s {
+		v = abs(v)
+		if max < v {
+			max = v
+		}
+	}
+	return max
+}
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
 	// fmt.Printf("%d\n", n)
-
 	a := make([]int, n)
+
 	for i := 0; i < n; i++ {
 		a[i] = scanInt()
 	}
 
-	sort.Sort(sort.Reverse(sort.IntSlice(a)))
-	// fmt.Printf("%v\n", a)
+	csum := maxSlice(a)
 
-	alice := 0
-	bob := 0
+	msum := 0
+	esum := 0
 	for i := 0; i < n; i++ {
-		if i%2 == 0 {
-			alice += a[i]
+		if a[i] < 0 {
+			msum += (a[i] * -1)
 		} else {
-			bob += a[i]
+			msum += a[i]
 		}
+		esum += a[i] * a[i]
 	}
-
-	sum := alice - bob
-	fmt.Printf("%d\n", sum)
+	fmt.Printf("%d\n%.15f\n%d\n", msum, math.Sqrt(float64(esum)), csum)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
 
+func abs(n int) int {
+	if n < 0 {
+		n *= -1
+	}
+	return n
+}
 func scanInt() int {
 	sc.Scan()
 	return atoi(sc.Text())

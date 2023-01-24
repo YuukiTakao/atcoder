@@ -14,26 +14,22 @@ func main() {
 	n := scanInt()
 	// fmt.Printf("%d\n", n)
 
-	a := make([]int, n)
+	d := make([]int, n)
 	for i := 0; i < n; i++ {
-		a[i] = scanInt()
+		d[i] = scanInt()
 	}
+	sort.Ints(d)
+	// fmt.Printf("%v\n", d)
 
-	sort.Sort(sort.Reverse(sort.IntSlice(a)))
-	// fmt.Printf("%v\n", a)
-
-	alice := 0
-	bob := 0
+	count := 0
+	max := 0
 	for i := 0; i < n; i++ {
-		if i%2 == 0 {
-			alice += a[i]
-		} else {
-			bob += a[i]
+		if max < d[i] {
+			count++
+			max = d[i]
 		}
 	}
-
-	sum := alice - bob
-	fmt.Printf("%d\n", sum)
+	fmt.Printf("%d\n", count)
 }
 
 var sc = bufio.NewScanner(os.Stdin)

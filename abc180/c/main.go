@@ -3,48 +3,47 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"sort"
 	"strconv"
 )
 
 func main() {
-	N := strToInt(readLine())
+	sc.Buffer(make([]byte, 128), 500000)
+	sc.Split(bufio.ScanWords)
+	n := scanInt()
+	// fmt.Printf("%d\n", n)
 
-	//fmt.Printf("%d\n", N)
-
-	ans := make([]int, 0)
-	for i := 1; i*i <= N; i++ {
-		if N%i == 0 {
+	ans := make([]int, 0, 16)
+	for i := 1; i*i <= n; i++ {
+		if n%i == 0 {
 			ans = append(ans, i)
-			if i != N/i {
-				ans = append(ans, N/i)
+			if i != n/i {
+				ans = append(ans, n/i)
 			}
-			//fmt.Printf("%d\n", N/i)
 		}
 	}
+
 	sort.Ints(ans)
-
-	for _, an := range ans {
-		fmt.Printf("%d\n", an)
+	for _, v := range ans {
+		fmt.Printf("%d\n", v)
 	}
 }
 
-var reader = bufio.NewReader(os.Stdin)
+var sc = bufio.NewScanner(os.Stdin)
 
-func readLine() string {
-	r, _, err := reader.ReadLine()
-	if err != nil {
-		log.Fatal(err)
-	}
-	return string(r)
+func scanInt() int {
+	sc.Scan()
+	return atoi(sc.Text())
 }
-
-func strToInt(s string) int {
-	i, err := strconv.Atoi(s)
+func atoi(nStr string) int {
+	i, err := strconv.Atoi(nStr)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	return i
+}
+func scanText() string {
+	sc.Scan()
+	return sc.Text()
 }

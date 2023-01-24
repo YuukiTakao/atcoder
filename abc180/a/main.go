@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 )
 
@@ -12,28 +11,9 @@ func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
-	// fmt.Printf("%d\n", n)
-
-	a := make([]int, n)
-	for i := 0; i < n; i++ {
-		a[i] = scanInt()
-	}
-
-	sort.Sort(sort.Reverse(sort.IntSlice(a)))
-	// fmt.Printf("%v\n", a)
-
-	alice := 0
-	bob := 0
-	for i := 0; i < n; i++ {
-		if i%2 == 0 {
-			alice += a[i]
-		} else {
-			bob += a[i]
-		}
-	}
-
-	sum := alice - bob
-	fmt.Printf("%d\n", sum)
+	a := scanInt()
+	b := scanInt()
+	fmt.Printf("%d\n", n-a+b)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
