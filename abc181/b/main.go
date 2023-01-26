@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 )
 
@@ -14,25 +13,11 @@ func main() {
 	n := scanInt()
 	// fmt.Printf("%d\n", n)
 
-	l := make([]int, n)
-	for i := range l {
-		l[i] = scanInt()
-	}
-
-	sort.Ints(l)
-
 	sum := 0
-	for i := 0; i < n; i++ {
-		for j := i + 1; j < n; j++ {
-			for k := j + 1; k < n; k++ {
-				if l[i] == l[j] || l[j] == l[k] || l[i] == l[k] {
-					continue
-				}
-				if l[k] < l[i]+l[j] {
-					sum++
-				}
-			}
-		}
+	for i := 1; i <= n; i++ {
+		a, b := scanInt(), scanInt()
+
+		sum += b*(b+1)/2 - a*(a-1)/2
 	}
 	fmt.Printf("%d\n", sum)
 }

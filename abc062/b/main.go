@@ -4,37 +4,35 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 )
 
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
-	n := scanInt()
-	// fmt.Printf("%d\n", n)
+	h := scanInt()
+	w := scanInt()
+	// fmt.Printf("%d %d\n", h, w)
 
-	l := make([]int, n)
-	for i := range l {
-		l[i] = scanInt()
+	a := make([]string, h+2)
+	for i := 0; i < h; i++ {
+		a[i] = scanText()
 	}
 
-	sort.Ints(l)
-
-	sum := 0
-	for i := 0; i < n; i++ {
-		for j := i + 1; j < n; j++ {
-			for k := j + 1; k < n; k++ {
-				if l[i] == l[j] || l[j] == l[k] || l[i] == l[k] {
-					continue
-				}
-				if l[k] < l[i]+l[j] {
-					sum++
-				}
-			}
-		}
+	for j := 0; j < w+2; j++ {
+		fmt.Printf("#")
 	}
-	fmt.Printf("%d\n", sum)
+	fmt.Printf("\n")
+	for i := 0; i < h; i++ {
+		fmt.Printf("#")
+		fmt.Printf("%s", a[i])
+		fmt.Printf("#")
+		fmt.Printf("\n")
+	}
+	for j := 0; j < w+2; j++ {
+		fmt.Printf("#")
+	}
+	fmt.Printf("\n")
 }
 
 var sc = bufio.NewScanner(os.Stdin)

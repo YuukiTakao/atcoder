@@ -14,27 +14,26 @@ func main() {
 	n := scanInt()
 	// fmt.Printf("%d\n", n)
 
-	l := make([]int, n)
-	for i := range l {
-		l[i] = scanInt()
-	}
-
-	sort.Ints(l)
-
-	sum := 0
+	a := make([]int, n)
 	for i := 0; i < n; i++ {
-		for j := i + 1; j < n; j++ {
-			for k := j + 1; k < n; k++ {
-				if l[i] == l[j] || l[j] == l[k] || l[i] == l[k] {
-					continue
-				}
-				if l[k] < l[i]+l[j] {
-					sum++
-				}
-			}
-		}
+		a[i] = scanInt()
 	}
-	fmt.Printf("%d\n", sum)
+
+	sort.Ints(a)
+	sum := 0
+	ans := 0
+	for i := 0; i < n; i++ {
+		ans += a[i] * i
+		ans -= sum
+		sum += a[i]
+	}
+	fmt.Printf("%d\n", ans)
+}
+func abs(n int) int {
+	if n < 0 {
+		n *= -1
+	}
+	return n
 }
 
 var sc = bufio.NewScanner(os.Stdin)
