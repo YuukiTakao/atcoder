@@ -13,19 +13,19 @@ func main() {
 	n := scanInt()
 	// fmt.Printf("%d\n", n)
 
-	a := make([]int, n)
-	for i := 1; i <= n; i++ {
-		tmp := scanInt()
-		a[tmp-1] = i
+	parent := make([]int, n+1)
+	// a := make([]int, n-1)
+	for i := 2; i <= n; i++ {
+		a := scanInt()
+		parent[i] = a
 	}
-
-	for i := 0; i < n; i++ {
-		if i >= 1 {
-			fmt.Printf(" ")
-		}
-		fmt.Printf("%d", a[i])
+	ans := 0
+	pos := n
+	for pos != 1 {
+		pos = parent[pos]
+		ans++
 	}
-	fmt.Printf("\n")
+	fmt.Printf("%d\n", ans)
 }
 
 var sc = bufio.NewScanner(os.Stdin)

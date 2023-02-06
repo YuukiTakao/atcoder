@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -12,31 +13,24 @@ func main() {
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
 	// fmt.Printf("%d\n", n)
-
-	a := make([]int, n)
+	a := make([]string, n)
 	for i := 1; i <= n; i++ {
-		tmp := scanInt()
-		a[tmp-1] = i
+		a[scanInt()-1] = fmt.Sprint(i)
+		// fmt.Printf("tmp=%d a[tmp]=%d\n", tmp, a[i])
 	}
-
-	for i := 0; i < n; i++ {
-		if i >= 1 {
-			fmt.Printf(" ")
-		}
-		fmt.Printf("%d", a[i])
-	}
-	fmt.Printf("\n")
+	fmt.Println(strings.Join(a, " "))
 }
 
 var sc = bufio.NewScanner(os.Stdin)
 
 func scanInts(n int) []int {
-	a := make([]int, n)
+	s := make([]int, n)
 	for i := 0; i < n; i++ {
-		a[i] = scanInt()
+		s[i] = scanInt()
 	}
-	return a
+	return s
 }
+
 func scanInt() int {
 	sc.Scan()
 	return atoi(sc.Text())
