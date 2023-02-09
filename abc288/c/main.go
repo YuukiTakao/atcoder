@@ -7,35 +7,49 @@ import (
 	"strconv"
 )
 
-type adList struct {
-	l     map[int][]int
-	paths [][]int
-	path  []int
+type UnionFind struct {
+	parent []int
+	size   []int
 }
 
-func initAdlist(v_count int) adList {
-	return adList{
-		l:     make(map[int][]int, v_count+1),
-		paths: make([][]int, 0, 2),
-		path:  make([]int, 0, 2),
+// Nは頂点数
+func NewUnionFind(n int) *UnionFind {
+	uf := new(UnionFind)
+	uf.parent = make([]int, n+1)
+	uf.size = make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		uf.parent[i] = -1
+		uf.size[i] = 1
 	}
+	return uf
 }
-func (al *adList) appendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
-}
-func (al adList) printWithSpace() {
-	for _, l := range al.l {
-		for j, v := range l {
-			if j >= 1 {
-				fmt.Printf(" ")
-			}
-			fmt.Printf("%d", v)
+func (uf UnionFind) root(x int) int {
+	for {
+		if uf.parent[x] == -1 {
+			break
 		}
-		fmt.Printf("\n")
+		x = uf.parent[x]
+	}
+	return x
+}
+func (uf UnionFind) unite(u, v int) {
+	rootU := uf.root(u)
+	rootV := uf.root(v)
+	if rootU == rootV {
+		return
+	}
+	if uf.size[rootU] < uf.size[rootV] {
+		uf.parent[rootU] = rootV
+		uf.size[rootV] = uf.size[rootU] + uf.size[rootV]
+	} else {
+		uf.parent[rootV] = rootU
+		uf.size[rootU] = uf.size[rootV] + uf.size[rootU]
 	}
 }
+func (uf UnionFind) same(u, v int) bool {
+	return uf.root(u) == uf.root(v)
+}
+
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
@@ -43,13 +57,18 @@ func main() {
 	m := scanInt()
 	// fmt.Printf("%d %d\n", n, m)
 
-	al := initAdlist(n)
-	for i := 0; i < m; i++ {
+	ans := 0
+	uf := NewUnionFind(n)
+	for i := 1; i <= m; i++ {
 		a, b := scanInt(), scanInt()
-		al.l[a] = append(al.l[a], b)
-		al.l[b] = append(al.l[b], a)
+
+		// fmt.Printf("%d %d\n", a, b)
+		if uf.same(a, b) {
+			ans++
+		}
+		uf.unite(a, b)
 	}
-	al.printWithSpace()
+	fmt.Printf("%d\n", ans)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
