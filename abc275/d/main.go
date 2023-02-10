@@ -7,27 +7,26 @@ import (
 	"strconv"
 )
 
-func abs(n int) int {
-	if n < 0 {
-		n *= -1
+var memo map[int]int
+
+func f(k int) int {
+	if k == 0 {
+		return 1
 	}
-	return n
+	if v, ok := memo[k]; ok {
+		return v
+	}
+	memo[k] = f(k/2) + f(k/3)
+	return memo[k]
 }
+
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
-	s := scanText()
-	// fmt.Printf("%s\n", s)
+	n := scanInt()
 
-	min := int(10e10)
-	for i := 0; i+2 < len(s); i++ {
-		num := atoi(string(s[i]))*100 + atoi(string(s[i+1]))*10 + atoi(string(s[i+2]))
-		sub := abs(int(753) - int(num))
-		if min > sub {
-			min = sub
-		}
-	}
-	fmt.Printf("%d\n", min)
+	memo = make(map[int]int)
+	fmt.Printf("%d\n", f(n))
 }
 
 var sc = bufio.NewScanner(os.Stdin)

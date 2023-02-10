@@ -7,27 +7,20 @@ import (
 	"strconv"
 )
 
-func abs(n int) int {
-	if n < 0 {
-		n *= -1
-	}
-	return n
-}
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
-	s := scanText()
-	// fmt.Printf("%s\n", s)
+	mod := 998244353
+	a := scanInt() % mod
+	b := scanInt() % mod
+	c := scanInt() % mod
+	d := scanInt() % mod
+	e := scanInt() % mod
+	f := scanInt() % mod
+	abc := (a * b % mod) * c % mod
+	def := (d * e % mod) * f % mod
+	fmt.Printf("%d\n", (abc-def+mod)%mod)
 
-	min := int(10e10)
-	for i := 0; i+2 < len(s); i++ {
-		num := atoi(string(s[i]))*100 + atoi(string(s[i+1]))*10 + atoi(string(s[i+2]))
-		sub := abs(int(753) - int(num))
-		if min > sub {
-			min = sub
-		}
-	}
-	fmt.Printf("%d\n", min)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
