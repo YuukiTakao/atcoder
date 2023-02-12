@@ -7,42 +7,48 @@ import (
 	"strconv"
 )
 
-func BitwizeSearch(n, m int, sets []uint) int {
-	ans := 0
-	for bit := 0; bit < 1<<n; bit++ {
-		pattern := make([]int, 0)
-		for i := 0; i < n; i++ {
-			if bit&(1<<i) > 0 {
-				pattern = append(pattern, i)
-			}
-		}
-		// fmt.Printf("pattern=%v\n", pattern)
-		bits := uint(0)
-		for _, v := range pattern {
-			bits |= sets[v]
-		}
-		if bits == (1<<m)-1 {
-			ans++
-		}
-	}
-	return ans
-}
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
 	m := scanInt()
+	// fmt.Printf("%d %d\n", n, m)
 
 	a := make([]uint, m)
 	for i := 0; i < m; i++ {
 		c := scanInt()
-
+		bit := uint(0)
 		for j := 0; j < c; j++ {
-			a[i] |= 1 << (scanInt() - 1)
+			bit |= 1 << (scanInt() - 1)
 		}
+		a[i] = bit
+		// fmt.Printf("a[i]=%b\n", a[i])
 	}
 
-	fmt.Printf("%d\n", BitwizeSearch(m, n, a))
+	// fmt.Printf(" (1<<n)-1=%b\n", (1<<n)-1)
+	// fmt.Printf("1<<n=%d\n", 1<<n)
+
+	ans := 0
+	for bit := 0; bit < 1<<m; bit++ {
+
+		ss := make([]int, 0)
+		for i := 0; i < m; i++ {
+			if bit&(1<<i) > 0 {
+				ss = append(ss, i)
+			}
+		}
+		// fmt.Printf("ss=%v\n", ss)
+
+		bits := uint(0)
+		for _, v := range ss {
+			bits |= a[v]
+		}
+		if bits == (1<<n)-1 {
+			ans++
+		}
+		// fmt.Printf("bits=%b bits&((1<<n)-1)=%b\n", bits, bits&((1<<n)-1))
+	}
+	fmt.Printf("%d\n", ans)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
