@@ -2,85 +2,75 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
-	"strings"
 )
 
+func BitwizeSearch(n int, sets string) int {
+	max := -1
+	for bit := 0; bit < 1<<n; bit++ {
+		pattern := make([]int, 0)
+		for i := 0; i < n; i++ {
+			if bit&(1<<i) > 0 {
+				pattern = append(pattern, i)
+			}
+		}
+		// fmt.Printf("pattern=%v\n", pattern)
+		if len(pattern) == 0 {
+			continue
+		}
+		str := bytes.NewBuffer(make([]byte, 0, len(pattern)))
+		for _, v := range pattern {
+			// fmt.Printf("%c\n", sets[v])
+			str.WriteString(string(sets[v]))
+		}
+		s := str.String()
+
+		num := atoi(s)
+
+		if num%3 == 0 {
+			// fmt.Printf("s=%s lens=%d n=%d\n", s, len(s), n)
+			if max < len(s) {
+				max = len(s)
+			}
+		}
+	}
+	if max == -1 {
+		return -1
+	}
+	return n - max
+}
 func main() {
-	N := readLine()
-	//fmt.Printf("%s\n", N)
+	sc.Buffer(make([]byte, 128), 500000)
+	sc.Split(bufio.ScanWords)
+	n := scanText()
 
-	ns := strings.Split(N, "")
-
-	remainN := strToInt(N) % 3
-	lenN := len(ns)
-	//fmt.Printf("%d\n", remainN)
-
-	// 余り1の桁が何個あるか
-	remainNum1 := 0
-	// 余り2の桁が何個あるか
-	remainNum2 := 0
-	for _, v := range ns {
-		//fmt.Printf("%d\n")
-		n := strToInt(v)
-		if n%3 == 1 {
-			remainNum1 += 1
-		} else if n%3 == 2 {
-			remainNum2 += 1
-		}
-	}
-
-	switch remainN {
-	case 0:
-		fmt.Printf("%d\n", 0)
-	case 1:
-		if remainNum1 >= 1 {
-			if lenN <= 1 {
-				fmt.Printf("%d\n", -1)
-			} else {
-				fmt.Println(1)
-			}
-		} else {
-			if lenN <= 2 {
-				fmt.Printf("%d\n", -1)
-			} else {
-				fmt.Printf("%d\n", 2)
-			}
-		}
-	case 2:
-		if remainNum2 >= 1 {
-			if lenN <= 1 {
-				fmt.Println(-1)
-			} else {
-				fmt.Println(1)
-			}
-		} else {
-			if lenN <= 2 {
-				fmt.Println(-1)
-			} else {
-				fmt.Println(2)
-			}
-		}
-	}
+	fmt.Printf("%d\n", BitwizeSearch(len(n), n))
 }
 
-var reader = bufio.NewReader(os.Stdin)
+var sc = bufio.NewScanner(os.Stdin)
 
-func readLine() string {
-	r, _, err := reader.ReadLine()
-	if err != nil {
-		log.Fatal(err)
+func scanInts(n int) []int {
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = scanInt()
 	}
-	return string(r)
+	return a
 }
-
-func strToInt(s string) int {
-	i, err := strconv.Atoi(s)
+func scanInt() int {
+	sc.Scan()
+	return atoi(sc.Text())
+}
+func atoi(nStr string) int {
+	i, err := strconv.Atoi(nStr)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	return i
+}
+func scanText() string {
+	sc.Scan()
+	return sc.Text()
 }
