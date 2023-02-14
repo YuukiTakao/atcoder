@@ -17,21 +17,16 @@ func BitwizeSearch(n int, sets string) int {
 				pattern = append(pattern, i)
 			}
 		}
-		// fmt.Printf("pattern=%v\n", pattern)
 		if len(pattern) == 0 {
 			continue
 		}
 		str := bytes.NewBuffer(make([]byte, 0, len(pattern)))
 		for _, v := range pattern {
-			// fmt.Printf("%c\n", sets[v])
 			str.WriteString(string(sets[v]))
 		}
 		s := str.String()
-
 		num := atoi(s)
-
 		if num%3 == 0 {
-			// fmt.Printf("s=%s lens=%d n=%d\n", s, len(s), n)
 			if max < len(s) {
 				max = len(s)
 			}
