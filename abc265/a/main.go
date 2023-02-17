@@ -3,23 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 )
 
-func DivisorEnumeration(n int) int {
-	ans := int(math.Pow10(18))
-	for i := 1; i*i <= n; i++ {
-		if n%i == 0 {
-			fmt.Printf("i=%d j=%d (i-1)+(n/i-1)=%d\n", i, n/i, (i-1)+(n/i-1))
-			ans = minOf(ans, i+n/i-2)
-		}
-	}
-	return ans
-}
 func minOf(vars ...int) int {
-	min := int(math.Pow10(18))
+	min := 2100000000
 	for _, v := range vars {
 		if min > v {
 			min = v
@@ -30,9 +19,20 @@ func minOf(vars ...int) int {
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
+	x := scanInt()
+	y := scanInt()
 	n := scanInt()
+	// fmt.Printf("%d %d %d\n", x, y, n)
 
-	fmt.Printf("%d\n", DivisorEnumeration(n))
+	if x*3 < y {
+		fmt.Printf("%d\n", n*x)
+	} else {
+		div := n / 3
+		rem := n % 3
+		ans := div*y + rem*x
+		fmt.Printf("%d\n", ans)
+	}
+
 }
 
 var sc = bufio.NewScanner(os.Stdin)

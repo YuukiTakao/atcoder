@@ -3,36 +3,37 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 )
 
-func DivisorEnumeration(n int) int {
-	ans := int(math.Pow10(18))
-	for i := 1; i*i <= n; i++ {
-		if n%i == 0 {
-			fmt.Printf("i=%d j=%d (i-1)+(n/i-1)=%d\n", i, n/i, (i-1)+(n/i-1))
-			ans = minOf(ans, i+n/i-2)
-		}
-	}
-	return ans
-}
-func minOf(vars ...int) int {
-	min := int(math.Pow10(18))
-	for _, v := range vars {
-		if min > v {
-			min = v
-		}
-	}
-	return min
-}
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
+	x := scanInt()
 	n := scanInt()
+	// fmt.Printf("%d %d\n", x, n)
 
-	fmt.Printf("%d\n", DivisorEnumeration(n))
+	visitable := make([]bool, 102)
+	for i := 0; i <= 101; i++ {
+		visitable[i] = true
+	}
+	for i := 0; i < n; i++ {
+		tmp := scanInt()
+		visitable[tmp] = false
+	}
+
+	for i := 0; i <= 100; i++ {
+		if x-i >= 0 && visitable[x-i] {
+			fmt.Printf("%d\n", x-i)
+			return
+		}
+		if visitable[x+i] {
+			fmt.Printf("%d\n", x+i)
+			return
+		}
+	}
+
 }
 
 var sc = bufio.NewScanner(os.Stdin)
