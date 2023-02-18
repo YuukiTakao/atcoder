@@ -9,46 +9,21 @@ import (
 	"strconv"
 )
 
-type Item struct {
-	value    int
-	priority int
+type IntHeap []int
 
-	index int
-}
-
-type PriorityQueue []*Item
-
-func (pq PriorityQueue) Len() int { return len(pq) }
-func (pq PriorityQueue) Less(i, j int) bool {
-	return pq[i].priority < pq[j].priority
-}
-func (pq PriorityQueue) Swap(i, j int) {
-	pq[i], pq[j] = pq[j], pq[i]
-	pq[i].index = i
-	pq[j].index = j
-}
-func (pq *PriorityQueue) Push(x interface{}) {
-	n := len(*pq)
-	item := x.(*Item)
-	item.index = n
-	*pq = append(*pq, item)
-}
-func (pq *PriorityQueue) Pop() interface{} {
-	old := *pq
+func (h IntHeap) Len() int            { return len(h) }
+func (h IntHeap) Less(i, j int) bool  { return h[i] < h[j] }
+func (h IntHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *IntHeap) Push(x interface{}) { *h = append(*h, x.(int)) }
+func (h *IntHeap) Pop() interface{} {
+	old := *h
 	n := len(old)
-	item := old[n-1]
-	old[n-1] = nil
-	item.index = -1
-	*pq = old[0 : n-1]
-	return item
-}
-func (pq *PriorityQueue) update(item *Item, value int, priority int) {
-	item.value = value
-	item.priority = priority
-	heap.Fix(pq, item.index)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
 }
 func maxOf(vars ...int) int {
-	max := int(math.Pow10(17)) * -1
+	max := int(math.Pow10(18)) * -1
 	for _, v := range vars {
 		if max < v {
 			max = v
@@ -62,37 +37,24 @@ func main() {
 	n := scanInt()
 	k := scanInt()
 	// fmt.Printf("%d %d\n", n, k)
-
 	p := make([]int, n)
-	pq := make(PriorityQueue, k)
+	h := new(IntHeap)
 	for i := 0; i < n; i++ {
 		p[i] = scanInt()
 		if i < k {
-			pq[i] = &Item{
-				value:    i,
-				priority: p[i],
-				index:    i,
-			}
+			heap.Push(h, p[i])
 		}
 	}
-	heap.Init(&pq)
-	first := heap.Pop(&pq).(*Item)
-	fmt.Printf("%d\n", first.priority)
-	heap.Push(&pq, first)
 
+	heap.Init(h)
+	fmt.Printf("%d\n", (*h)[0])
 	for i := k; i < n; i++ {
-		min := heap.Pop(&pq).(*Item).priority
+		min := heap.Pop(h).(int)
 		min = maxOf(min, p[i])
-		item := &Item{
-			value:    i + 1,
-			priority: min,
-			index:    i,
-		}
-		heap.Push(&pq, item)
-
-		ans := heap.Pop(&pq).(*Item)
-		fmt.Printf("%d\n", ans.priority)
-		heap.Push(&pq, ans)
+		heap.Push(h, min)
+		ans := heap.Pop(h)
+		fmt.Printf("%d\n", ans)
+		heap.Push(h, ans)
 	}
 }
 
