@@ -1,0 +1,67 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+)
+
+func isDash(c rune) bool {
+	if c == '-' {
+		return true
+	} else {
+		return false
+	}
+}
+func main() {
+	sc.Buffer(make([]byte, 128), 500000)
+	sc.Split(bufio.ScanWords)
+	a := scanInt()
+	_ = scanInt()
+	s := scanText()
+	// fmt.Printf("%d %d %s\n", a, b, s)
+
+	for i, v := range s {
+		// fmt.Printf("i=%d v=%c\n", i, v)
+		// check dash position
+		if i == a {
+			if !isDash(v) {
+				fmt.Printf("No\n")
+				return
+			}
+		} else {
+			if isDash(v) {
+				fmt.Printf("No\n")
+				return
+			}
+		}
+	}
+	fmt.Printf("Yes\n")
+
+}
+
+var sc = bufio.NewScanner(os.Stdin)
+
+func scanInts(n int) []int {
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = scanInt()
+	}
+	return a
+}
+func scanInt() int {
+	sc.Scan()
+	return atoi(sc.Text())
+}
+func atoi(nStr string) int {
+	i, err := strconv.Atoi(nStr)
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+func scanText() string {
+	sc.Scan()
+	return sc.Text()
+}
