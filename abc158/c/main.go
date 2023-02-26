@@ -5,38 +5,9 @@ import (
 	"fmt"
 	"math"
 	"os"
-	"sort"
 	"strconv"
 )
 
-type Pair struct {
-	first  int
-	weight int
-}
-
-func main() {
-	sc.Buffer(make([]byte, 128), 500000)
-	sc.Split(bufio.ScanWords)
-	n := scanInt()
-	w := scanInt()
-
-	c := make([]Pair, n)
-	for i := 0; i < n; i++ {
-		c[i] = Pair{first: scanInt(), weight: scanInt()}
-	}
-	sort.Slice(c, func(i, j int) bool { return c[i].first < c[j].first })
-
-	ans := 0
-	for i := n - 1; i >= 0; i-- {
-		tmpw := minOf(c[i].weight, w)
-		ans += c[i].first * tmpw
-		w -= tmpw
-		if w == 0 {
-			break
-		}
-	}
-	fmt.Printf("%d\n", ans)
-}
 func minOf(vars ...int) int {
 	min := int(math.Pow10(18))
 	for _, v := range vars {
@@ -45,6 +16,22 @@ func minOf(vars ...int) int {
 		}
 	}
 	return min
+}
+func main() {
+	sc.Buffer(make([]byte, 128), 500000)
+	sc.Split(bufio.ScanWords)
+	a := scanInt()
+	b := scanInt()
+
+	for i := 0; i < 1001; i++ {
+		notaxA := i * 8 / 100
+		notaxB := i * 10 / 100
+		if a == notaxA && b == notaxB {
+			fmt.Printf("%d\n", i)
+			return
+		}
+	}
+	fmt.Printf("-1\n")
 }
 
 var sc = bufio.NewScanner(os.Stdin)
