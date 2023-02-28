@@ -7,24 +7,42 @@ import (
 	"strconv"
 )
 
+const (
+	MOD = 998244353
+)
+
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
-	fmt.Printf("%d\n", n)
+	// fmt.Printf("%d\n", n)
 
-	m := make(map[int]int)
-	a, b := make([]int, n), make([]int, n)
+	cards := make([][]int, n)
 	for i := 0; i < n; i++ {
-		a[i], b[i] = scanInt(), scanInt()
-		m[a[i]]++
-		m[b[i]]++
+		cards[i] = make([]int, 2)
+		cards[i][0] = scanInt()
+		cards[i][1] = scanInt()
+		// fmt.Printf("%v\n", cards[i])
 	}
-	fmt.Printf("%v\n", m)
 
-	// for i := 0; i < n; i++ {
-
-	// }
+	dp := make([][]int, n)
+	for i := 0; i < n; i++ {
+		dp[i] = []int{0, 0}
+		// fmt.Printf("%v\n", dp[i])
+	}
+	dp[0] = []int{1, 1}
+	for i := 1; i < n; i++ {
+		for pre := 0; pre < 2; pre++ {
+			for next := 0; next < 2; next++ {
+				if cards[i-1][pre] != cards[i][next] {
+					dp[i][next] += dp[i-1][pre]
+				}
+			}
+		}
+		dp[i][0] %= MOD
+		dp[i][1] %= MOD
+	}
+	fmt.Printf("%d\n", (dp[n-1][0]+dp[n-1][1])%MOD)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
