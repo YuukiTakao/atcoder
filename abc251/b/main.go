@@ -12,21 +12,17 @@ func main() {
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
 	w := scanInt()
-	// fmt.Printf("%d %d\n", n, w)
 
 	a := scanInts(n)
-
 	good := make(map[int]bool)
 	for i := 0; i < n; i++ {
 		good[a[i]] = true
 	}
-
 	for i := 0; i < n-1; i++ {
 		for j := i + 1; j < n; j++ {
 			good[a[i]+a[j]] = true
 		}
 	}
-
 	for i := 0; i < n-2; i++ {
 		for j := i + 1; j < n-1; j++ {
 			for k := j + 1; k < n; k++ {
@@ -34,7 +30,6 @@ func main() {
 			}
 		}
 	}
-
 	ans := 0
 	for i := 1; i <= w; i++ {
 		if good[i] {
