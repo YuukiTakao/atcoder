@@ -11,30 +11,31 @@ func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
-	k := scanInt()
-	// fmt.Printf("%d %d\n", n, k)
+	// fmt.Printf("%d\n", n)
 
-	a := scanInts(n)
-	m := make(map[int]bool, n)
+	a := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		a[i] = scanInt()
+	}
+	b := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		b[i] = scanInt()
+	}
+	c := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		c[i] = scanInt()
+	}
+
+	d := make(map[int]int, n)
+	for i := 1; i <= n; i++ {
+		d[b[c[i]]]++
+	}
+
+	ans := 0
 	for _, v := range a {
-		m[v] = true
+		ans += d[v]
 	}
-
-	// fmt.Printf("%v\n", m)
-	ans := -1
-	for i := 0; i <= k; i++ {
-		if m[i] {
-			continue
-		}
-		ans = i
-		break
-	}
-	if ans == -1 {
-		fmt.Println(k)
-	} else {
-		fmt.Println(ans)
-	}
-
+	fmt.Printf("%d\n", ans)
 }
 
 var sc = bufio.NewScanner(os.Stdin)

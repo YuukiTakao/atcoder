@@ -3,10 +3,24 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
 
+func minOf(vars ...int) int {
+	min := int(math.Pow10(18))
+	for _, v := range vars {
+		if min > v {
+			min = v
+		}
+	}
+	return min
+}
+func Pow(x, y int) int {
+	res := int(math.Pow(float64(x), float64(y)))
+	return res
+}
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
@@ -14,27 +28,18 @@ func main() {
 	k := scanInt()
 	// fmt.Printf("%d %d\n", n, k)
 
-	a := scanInts(n)
-	m := make(map[int]bool, n)
-	for _, v := range a {
-		m[v] = true
+	// lim := 3 * Pow(10, 5)
+	m := make(map[int]bool)
+	for i := 0; i < n; i++ {
+		m[scanInt()] = true
 	}
-
-	// fmt.Printf("%v\n", m)
-	ans := -1
-	for i := 0; i <= k; i++ {
-		if m[i] {
-			continue
+	for i := 0; i < k; i++ {
+		if !m[i] {
+			fmt.Printf("%d\n", i)
+			return
 		}
-		ans = i
-		break
 	}
-	if ans == -1 {
-		fmt.Println(k)
-	} else {
-		fmt.Println(ans)
-	}
-
+	fmt.Printf("%d\n", k)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
