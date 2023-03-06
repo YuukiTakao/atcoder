@@ -7,36 +7,23 @@ import (
 	"strconv"
 )
 
-func DivisorEnumeration(n int) []int {
-	divs := make([]int, 0)
-	for i := 1; i*i <= n; i++ {
-		if n%i == 0 {
-			divs = append(divs, i)
-			if i != n/i {
-				divs = append(divs, n/i)
-			}
-		}
-	}
-	return divs
-}
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	n := scanInt()
+	m := scanInt()
 
-	ans := 0
-	m := make(map[int]int)
-	for i := 1; i <= n-1; i++ {
-		if m[i] == 0 {
-			m[i] = len(DivisorEnumeration(i))
-		}
-		if m[n-i] == 0 {
-			m[n-i] = len(DivisorEnumeration(n - i))
-		}
-		ans += m[i] * m[n-i]
-		// fmt.Printf("i=%d n-i=%d\n", i, n-i)
+	evenCnt := 0
+	oddCnt := 0
+	if n >= 2 {
+		evenCnt += n * (n - 1) / 2
 	}
-	fmt.Printf("%d\n", ans)
+	if m >= 2 {
+		oddCnt += m * (m - 1) / 2
+	}
+
+	fmt.Printf("%d\n", evenCnt+oddCnt)
+
 }
 
 var sc = bufio.NewScanner(os.Stdin)
