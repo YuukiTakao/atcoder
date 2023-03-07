@@ -10,27 +10,20 @@ import (
 func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
-	h := scanInt()
-	w := scanInt()
-	r := scanInt()
-	c := scanInt()
+	s := scanText()
+	// fmt.Printf("%s\n", s)
 
-	ans := 0
-	if r-1 >= 1 {
-		ans++
-	}
-	if r+1 <= h {
-		ans++
-	}
-	if c-1 >= 1 {
-		ans++
-	}
-	if c+1 <= w {
-		ans++
+	m := make(map[string]int, 10)
+	for _, v := range s {
+		m[string(v)]++
 	}
 
-	// fmt.Printf("%d %d %d %d\n", h, w, r, c)
-	fmt.Printf("%d\n", ans)
+	for i := 0; i <= 9; i++ {
+		if m[strconv.Itoa(i)] == 0 {
+			fmt.Printf("%d\n", i)
+			return
+		}
+	}
 }
 
 var sc = bufio.NewScanner(os.Stdin)

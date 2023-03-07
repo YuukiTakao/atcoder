@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
@@ -11,26 +12,9 @@ func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	h := scanInt()
-	w := scanInt()
-	r := scanInt()
-	c := scanInt()
 
-	ans := 0
-	if r-1 >= 1 {
-		ans++
-	}
-	if r+1 <= h {
-		ans++
-	}
-	if c-1 >= 1 {
-		ans++
-	}
-	if c+1 <= w {
-		ans++
-	}
-
-	// fmt.Printf("%d %d %d %d\n", h, w, r, c)
-	fmt.Printf("%d\n", ans)
+	ans := math.Sqrt(float64(h * (12800000 + h)))
+	fmt.Printf("%.9f\n", ans)
 }
 
 var sc = bufio.NewScanner(os.Stdin)
