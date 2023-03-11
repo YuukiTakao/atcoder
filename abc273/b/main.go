@@ -34,10 +34,9 @@ func main() {
 		fmt.Printf("0\n")
 		return
 	}
-	for i := 0; i < k; i++ {
-		d := int(math.Pow10(i + 1))
+	for i := 1; i <= k; i++ {
+		d := int(math.Pow10(i))
 		drem := n % d
-		// fmt.Printf("d=%d drem=%d\n", d, drem)
 		if d/2 <= drem {
 			n += (d - drem)
 		} else {
