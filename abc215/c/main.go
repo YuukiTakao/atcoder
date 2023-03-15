@@ -44,10 +44,10 @@ func main() {
 	ss := strings.Split(s, "")
 	sort.Strings(ss)
 
-	// fmt.Printf("%v\n", ss)
-
+	// 辞書順の最初の文字列
 	ans := ss
-	for i := 1; i < k; i++ {
+	// 2番目以降の文字列を辞書順に作る
+	for i := 2; i <= k; i++ {
 		if nextPermutation(sort.StringSlice(ss)) {
 			ans = ss
 		}

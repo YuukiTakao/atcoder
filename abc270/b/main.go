@@ -18,14 +18,34 @@ func main() {
 	z := scanInt()
 	// fmt.Printf("%d %d %d\n", x, y, z)
 
-	if 0 < x && x < y || y < x && x < 0 {
-		fmt.Printf("%d\n", abs(x))
-		return
-	} else if x > 0 && x > y && z > y || x < 0 && x < y && z < y {
-		fmt.Printf("-1\n")
-		return
-	} else if x > 0 && y > 0 && z < y {
-
+	if 0 < x {
+		if x < y || y < 0 {
+			fmt.Printf("%d\n", abs(x))
+		} else {
+			if z < y {
+				if z < 0 {
+					fmt.Printf("%d\n", abs(z+z)+x)
+				} else {
+					fmt.Printf("%d\n", x)
+				}
+			} else {
+				fmt.Printf("-1\n")
+			}
+		}
+	} else { // x <= 0
+		if x > y || y > 0 { // 壁が目標よりも遠いか、プラス側にあるからまっすぐ目標にいける
+			fmt.Printf("%d\n", abs(x))
+		} else { // 目標と原点の間に壁
+			if z > y { // カベよりハンマーの方が近い
+				if z > 0 {
+					fmt.Printf("%d\n", abs(z+z)+abs(x))
+				} else {
+					fmt.Printf("%d\n", abs(x))
+				}
+			} else {
+				fmt.Printf("-1\n")
+			}
+		}
 	}
 
 }
