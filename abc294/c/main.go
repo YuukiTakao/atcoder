@@ -8,63 +8,60 @@ import (
 	"strconv"
 )
 
+func main() {
+	bufInit()
+	defer wr.Flush()
+	n := scanInt()
+	m := scanInt()
+
+	isA := make(map[int]bool, n+m)
+	c := make([]int, n+m)
+	for i := 0; i < n+m; i++ {
+		c[i] = scanInt()
+		if i < n {
+			isA[c[i]] = true
+		}
+	}
+	sort.Ints(c)
+	a := make([]int, 0, n)
+	for i := 0; i < n+m; i++ {
+		if isA[c[i]] {
+			a = append(a, i+1)
+		}
+	}
+	for _, v := range a {
+		fprintf("%d ", v)
+	}
+	fprintln("")
+
+	b := make([]int, 0, m)
+	for i := 0; i < n+m; i++ {
+		if !isA[c[i]] {
+			b = append(b, i+1)
+		}
+	}
+	for _, v := range b {
+		fprintf("%d ", v)
+	}
+	fprintln("")
+}
+
+var wr *bufio.Writer
+var sc = bufio.NewScanner(os.Stdin)
+
+func fprintf(f string, a ...interface{}) {
+	fmt.Fprintf(wr, f, a...)
+}
+func fprintln(f string, a ...interface{}) {
+	fmt.Fprintln(wr, a...)
+}
+func fprint(f string, a ...interface{}) {
+	fmt.Fprint(wr, a...)
+}
 func bufInit() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
-}
-
-func main() {
-	bufInit()
-	n := scanInt()
-	m := scanInt()
-	a := make([]int, n)
-	for i := 0; i < n; i++ {
-		a[i] = scanInt()
-	}
-	b := make([]int, m)
-	for i := 0; i < m; i++ {
-		b[i] = scanInt()
-	}
-
-	c := make([]int, n+m)
-	cmap := make(map[int]int)
-	for i := 0; i < n; i++ {
-		c[i] = a[i]
-		cmap[a[i]] = 65
-	}
-	for i := 0; i < m; i++ {
-		c[i+n] = b[i]
-		cmap[b[i]] = 66
-	}
-	sort.Ints(c)
-	ansa := make([]int, 0, n)
-	ansb := make([]int, 0, m)
-	for i, v := range c {
-		if cmap[v] == 65 {
-			ansa = append(ansa, i+1)
-		} else {
-			ansb = append(ansb, i+1)
-		}
-	}
-	for _, v := range ansa {
-		fmt.Printf("%d ", v)
-	}
-	fmt.Printf("\n")
-	for _, v := range ansb {
-		fmt.Printf("%d ", v)
-	}
-	fmt.Printf("\n")
-	// fmt.Printf("%d\n", c)
-}
-
-var sc = bufio.NewScanner(os.Stdin)
-
-func scanInts(n int) []int {
-	a := make([]int, n)
-	for i := 0; i < n; i++ {
-		a[i] = scanInt()
-	}
-	return a
+	wr = bufio.NewWriter(os.Stdout)
 }
 func scanInt() int {
 	sc.Scan()
