@@ -3,32 +3,39 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
 
+func maxOf(vars ...int) int {
+	max := int(math.Pow10(18)) * -1
+	for _, v := range vars {
+		if max < v {
+			max = v
+		}
+	}
+	return max
+}
+func abs(n int) int {
+	if n < 0 {
+		n *= -1
+	}
+	return n
+}
+func ChebyshevDistance(x1, y1, x2, y2 int) int {
+	return maxOf(abs(x1-x2), abs(y1-y2))
+}
 func main() {
 	bufInit()
 	defer wr.Flush()
 	r := scanInt()
 	c := scanInt()
 
-	if r == 1 || r == 15 || c == 1 || c == 15 {
-		fprintln("black")
-	} else if r == 2 || r == 14 || c == 2 || c == 14 {
+	if ChebyshevDistance(8, 8, r, c)%2 == 0 {
 		fprintln("white")
-	} else if r == 3 || r == 13 || c == 3 || c == 13 {
-		fprintln("black")
-	} else if r == 4 || r == 12 || c == 4 || c == 12 {
-		fprintln("white")
-	} else if r == 5 || r == 11 || c == 5 || c == 11 {
-		fprintln("black")
-	} else if r == 6 || r == 10 || c == 6 || c == 10 {
-		fprintln("white")
-	} else if r == 7 || r == 9 || c == 7 || c == 9 {
-		fprintln("black")
 	} else {
-		fprintln("white")
+		fprintln("black")
 	}
 }
 
