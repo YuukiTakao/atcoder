@@ -11,7 +11,6 @@ func main() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	s := scanText()
-	// fmt.Printf("%s\n", s)
 
 	m := make(map[string]int, 10)
 	for _, v := range s {
