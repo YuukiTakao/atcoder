@@ -43,20 +43,20 @@ func main() {
 	}
 
 	passed := make([]bool, n)
-
-	var f func(sl Pairs, lim int)
-	f = func(sl Pairs, lim int) {
-		tmp := make(Pairs, len(sl))
-		copy(tmp, sl)
+	var f func(s Pairs, lim int)
+	f = func(s Pairs, lim int) {
+		tmp := make(Pairs, len(s))
+		copy(tmp, s)
 		sort.Slice(tmp, tmp.Less)
 		cnt := 0
-		for _, v := range tmp {
-			if cnt < lim && !passed[v.second] {
-				passed[v.second] = true
+		for i := 0; i < n; i++ {
+			if cnt < lim && !passed[tmp[i].second] {
+				passed[tmp[i].second] = true
 				cnt++
 			}
 		}
 	}
+
 	f(a, x)
 	f(b, y)
 	for i := 0; i < n; i++ {
