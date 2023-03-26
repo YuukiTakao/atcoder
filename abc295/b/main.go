@@ -29,8 +29,8 @@ func main() {
 
 	grid := make([][]byte, r)
 	for i := 0; i < r; i++ {
-		grid[i] = []byte(scanText()) //
-		// grid[i] = scanBytes() // これだと改行が入ってしまう
+		grid[i] = []byte(scanText()) // こっちで読むとAC
+		// grid[i] = scanBytes() // こっちで読みこむとWA、調べよう
 	}
 
 	for i := 0; i < r; i++ {

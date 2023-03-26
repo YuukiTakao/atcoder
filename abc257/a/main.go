@@ -5,60 +5,22 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
-type Queue struct {
-	data []int
-}
-
-func NewQueue(n int) *Queue {
-	return &Queue{data: make([]int, 0, n)}
-}
-func (q *Queue) Enqueue(n int) {
-	q.data = append(q.data, n)
-}
-func (q *Queue) Dequeue() int {
-	if len(q.data) == 0 {
-		return -1
-	}
-	a := q.data[0]
-	q.data = q.data[1:]
-	return a
-}
-func (q *Queue) Peek() int {
-	if len(q.data) == 0 {
-		return -1
-	}
-	return q.data[0]
-}
-func (q *Queue) Len() int {
-	return len(q.data)
-}
 func main() {
 	bufInit()
 	defer wr.Flush()
 	n := scanInt()
-	a := make([]int, n)
-	for i := 0; i < n; i++ {
-		a[i] = scanInt()
-	}
+	x := scanInt()
 
-	p := make([]int, 0, 4)
-	for i := 0; i < n; i++ {
-		p = append(p, 0)
-		for j := 0; j < len(p); j++ {
-			p[j] += a[i]
-			// fprintf("p[%d]=%d\n", j, p[j])
-		}
-	}
+	b := strings.Builder{}
 
-	ans := 0
-	for i := range p {
-		if p[i] >= 4 {
-			ans++
-		}
+	for i := 0; i < 26; i++ {
+		b.WriteString(strings.Repeat(string(byte(i+'A')), n))
 	}
-	fprintln(ans)
+	s := b.String()
+	fprintln(string(s[x-1]))
 }
 
 var wr *bufio.Writer
