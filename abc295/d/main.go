@@ -13,9 +13,13 @@ func main() {
 	s := scanText()
 	m := make(map[rune]int, len(s))
 
-	for l := 0; l < len(s)-1; l++ {
-		for r := 0; r < len(s); r++ {
-			fprintf("l=%d r=%d\n", l, r)
+	for _, v := range s {
+		m[v] += 1
+	}
+
+	for _, v := range m {
+		if v%2 != 0 {
+
 		}
 	}
 	fprintf("%v\n", m)

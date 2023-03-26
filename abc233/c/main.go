@@ -3,40 +3,42 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 )
 
-func abs(n int) int {
-	if n < 0 {
-		n *= -1
-	}
-	return n
-}
-func minOf(vars ...int) int {
-	min := int(math.Pow10(18))
-	for _, v := range vars {
-		if min > v {
-			min = v
-		}
-	}
-	return min
-}
 func main() {
 	bufInit()
 	defer wr.Flush()
-	s := scanText()
+	n := scanInt()
+	x := scanInt()
 
-	ans := int(math.Pow10(18))
-	for i := 0; i+2 < len(s); i++ {
-		n := atoi(s[i : i+3])
-
-		diff := abs(753 - n)
-		if ans > diff {
-			ans = diff
+	bags := make([][]int, n)
+	for i := 0; i < n; i++ {
+		l := scanInt()
+		bags[i] = make([]int, l)
+		for j := 0; j < l; j++ {
+			bags[i][j] = scanInt()
 		}
 	}
+
+	ans := 0
+	var dfsTrail func(pos, product int)
+	dfsTrail = func(pos, product int) {
+		if pos == n {
+			if product == x {
+				ans++
+			}
+			return
+		}
+		for i := 0; i < len(bags[pos]); i++ {
+			if product*bags[pos][i] > x {
+				continue
+			}
+			dfsTrail(pos+1, product*bags[pos][i])
+		}
+	}
+	dfsTrail(0, 1)
 	fprintln(ans)
 }
 

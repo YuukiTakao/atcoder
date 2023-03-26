@@ -3,41 +3,48 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
+	"sort"
 	"strconv"
 )
 
-func abs(n int) int {
-	if n < 0 {
-		n *= -1
+func f(h, w int) []string {
+	s := make([]string, h)
+	for i := 0; i < h; i++ {
+		s[i] = scanText()
 	}
-	return n
-}
-func minOf(vars ...int) int {
-	min := int(math.Pow10(18))
-	for _, v := range vars {
-		if min > v {
-			min = v
+	x := make([][]byte, w)
+	for i := 0; i < w; i++ {
+		x[i] = make([]byte, h)
+	}
+	for i := 0; i < h; i++ {
+		for j := 0; j < w; j++ {
+			x[j][i] = s[i][j]
 		}
 	}
-	return min
+	xx := make([]string, w)
+	for i := 0; i < w; i++ {
+		xx[i] = string(x[i])
+	}
+	sort.StringSlice(xx).Sort()
+	return xx
 }
 func main() {
 	bufInit()
 	defer wr.Flush()
-	s := scanText()
+	h := scanInt()
+	w := scanInt()
 
-	ans := int(math.Pow10(18))
-	for i := 0; i+2 < len(s); i++ {
-		n := atoi(s[i : i+3])
+	s := f(h, w)
+	t := f(h, w)
 
-		diff := abs(753 - n)
-		if ans > diff {
-			ans = diff
+	for i := 0; i < w; i++ {
+		if s[i] != t[i] {
+			fprintln("No")
+			return
 		}
 	}
-	fprintln(ans)
+	fprintln("Yes")
 }
 
 var wr *bufio.Writer

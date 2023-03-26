@@ -3,41 +3,18 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 )
 
-func abs(n int) int {
-	if n < 0 {
-		n *= -1
-	}
-	return n
-}
-func minOf(vars ...int) int {
-	min := int(math.Pow10(18))
-	for _, v := range vars {
-		if min > v {
-			min = v
-		}
-	}
-	return min
-}
 func main() {
 	bufInit()
 	defer wr.Flush()
-	s := scanText()
+	n := scanInt()
+	k := scanInt()
+	q := scanInt()
+	fprintf("%d %d %d\n", n, k, q)
 
-	ans := int(math.Pow10(18))
-	for i := 0; i+2 < len(s); i++ {
-		n := atoi(s[i : i+3])
-
-		diff := abs(753 - n)
-		if ans > diff {
-			ans = diff
-		}
-	}
-	fprintln(ans)
 }
 
 var wr *bufio.Writer
