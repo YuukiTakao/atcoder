@@ -3,37 +3,24 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 )
 
-func AngleToRadian(angle float64) float64 {
-	return angle * (math.Pi / 180)
-}
-func RadianToAngle(radian float64) float64 {
-	return radian * (180 / math.Pi)
-}
-
-// 2次元座標のユークリッド距離を求める
-func EuclideanDistance(x1, y1, x2, y2 float64) float64 {
-	return math.Sqrt(math.Pow(x2-x1, 2) + math.Pow(y2-y1, 2))
-}
-
 func main() {
 	bufInit()
 	defer wr.Flush()
-	a := scanInt()
-	b := scanInt()
-	d := scanInt()
+	n := scanInt()
+	a := make(map[int]int, n)
+	for i := 0; i < n; i++ {
+		a[scanInt()]++
+	}
 
-	eDistance := EuclideanDistance(0, 0, float64(a), float64(b))
-	sumRad := AngleToRadian(float64(d)) + math.Atan2(float64(b), float64(a))
-
-	newX := math.Cos(sumRad) * eDistance
-	newY := math.Sin(sumRad) * eDistance
-
-	fprintf("%.20f %.20f\n", newX, newY)
+	ans := 0
+	for _, v := range a {
+		ans += v / 2
+	}
+	fprintln(ans)
 }
 
 var wr *bufio.Writer
