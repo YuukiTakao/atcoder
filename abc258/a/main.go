@@ -10,31 +10,18 @@ import (
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
 	k := scanInt()
-	q := scanInt()
 
-	a := make([]int, k+1)
-	for i := 1; i <= k; i++ {
-		a[i] = scanInt()
-	}
-	l := make([]int, q+1)
-	for i := 1; i <= q; i++ {
-		l[i] = scanInt()
-	}
+	startHour := 21
+	startMinute := 0
 
-	for i := 1; i <= q; i++ {
-		if l[i] == k && a[l[i]] < n {
-			a[l[i]]++
-		} else if l[i] < k && a[l[i]+1]-a[l[i]] >= 2 {
-			a[l[i]]++
-		}
+	if k >= 60 {
+		startHour++
+		k -= 60
 	}
+	startMinute += k
 
-	for i := 1; i <= k; i++ {
-		fprintf("%d ", a[i])
-	}
-	fprintln()
+	fprintf("%d:%02d\n", startHour, startMinute)
 }
 
 var wr *bufio.Writer

@@ -10,31 +10,16 @@ import (
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	k := scanInt()
-	q := scanInt()
+	s := scanText()
+	t := scanText()
 
-	a := make([]int, k+1)
-	for i := 1; i <= k; i++ {
-		a[i] = scanInt()
-	}
-	l := make([]int, q+1)
-	for i := 1; i <= q; i++ {
-		l[i] = scanInt()
-	}
-
-	for i := 1; i <= q; i++ {
-		if l[i] == k && a[l[i]] < n {
-			a[l[i]]++
-		} else if l[i] < k && a[l[i]+1]-a[l[i]] >= 2 {
-			a[l[i]]++
+	ans := 0
+	for i := 0; i < len(s); i++ {
+		if s[i] != t[i] {
+			ans++
 		}
 	}
-
-	for i := 1; i <= k; i++ {
-		fprintf("%d ", a[i])
-	}
-	fprintln()
+	fprintln(ans)
 }
 
 var wr *bufio.Writer
