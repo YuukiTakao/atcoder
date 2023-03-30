@@ -4,33 +4,27 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 )
 
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	k := scanInt()
+	r := scanInt()
+	c := scanInt()
 
-	a := scanInts(n)
-	for group := 0; group < k; group++ {
-		b := make([]int, 0, n/k+1)
-		for i := group; i < n; i += k {
-			b = append(b, a[i])
-		}
-		// fprintf("group=%d b=%v\n", group, b)
-		sort.Ints(b)
-		for i := group; i < n; i += k {
-			a[i] = b[i/k]
+	a := make([][]int, 2)
+	for i := 0; i < 2; i++ {
+		a[i] = make([]int, 2)
+	}
+
+	for i := 0; i < 2; i++ {
+		for j := 0; j < 2; j++ {
+			a[i][j] = scanInt()
 		}
 	}
-	if sort.IntsAreSorted(a) {
-		fprintln("Yes")
-	} else {
-		fprintln("No")
-	}
+
+	fprintf("%d\n", a[r-1][c-1])
 }
 
 var wr *bufio.Writer
@@ -49,13 +43,6 @@ func bufInit() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	wr = bufio.NewWriter(os.Stdout)
-}
-func scanInts(n int) []int {
-	a := make([]int, n)
-	for i := 0; i < n; i++ {
-		a[i] = scanInt()
-	}
-	return a
 }
 func scanInt() int {
 	sc.Scan()

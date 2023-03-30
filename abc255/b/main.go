@@ -3,34 +3,49 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
-	"sort"
 	"strconv"
 )
 
+type Point struct {
+	x int
+	y int
+}
+
+// ルート計算はループ外でやるのが早い
+func GridDistanceEuclidean(p1, p2 Point) int {
+	// return math.Sqrt(math.Pow(float64(p1.x-p2.x), 2) + math.Pow(float64(p1.y-p2.y), 2))
+	return (p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y)
+}
 func main() {
 	bufInit()
 	defer wr.Flush()
 	n := scanInt()
 	k := scanInt()
-
-	a := scanInts(n)
-	for group := 0; group < k; group++ {
-		b := make([]int, 0, n/k+1)
-		for i := group; i < n; i += k {
-			b = append(b, a[i])
+	a := make([]int, k)
+	for i := 0; i < k; i++ {
+		a[i] = scanInt() - 1
+	}
+	p := make([]Point, n)
+	for i := 0; i < n; i++ {
+		p[i].x = scanInt()
+		p[i].y = scanInt()
+	}
+	ans := 0
+	for i := 0; i < n; i++ {
+		min := int(math.Pow10(18))
+		for _, lighter := range a {
+			r := GridDistanceEuclidean(p[i], p[lighter])
+			if min > r {
+				min = r
+			}
 		}
-		// fprintf("group=%d b=%v\n", group, b)
-		sort.Ints(b)
-		for i := group; i < n; i += k {
-			a[i] = b[i/k]
+		if ans < min {
+			ans = min
 		}
 	}
-	if sort.IntsAreSorted(a) {
-		fprintln("Yes")
-	} else {
-		fprintln("No")
-	}
+	fprintf("%.12f\n", math.Sqrt(float64(ans)))
 }
 
 var wr *bufio.Writer
@@ -56,6 +71,13 @@ func scanInts(n int) []int {
 		a[i] = scanInt()
 	}
 	return a
+}
+func scanInts2(n int) ([]int, []int) {
+	a, b := make([]int, n), make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i], b[i] = scanInt(), scanInt()
+	}
+	return a, b
 }
 func scanInt() int {
 	sc.Scan()
