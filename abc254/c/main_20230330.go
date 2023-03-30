@@ -14,19 +14,25 @@ func main() {
 	n := scanInt()
 	k := scanInt()
 
-	a := scanInts(n)
-	for group := 0; group < k; group++ {
-		b := make([]int, 0, n/k+1)
-		for i := group; i < n; i += k {
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = scanInt()
+	}
+
+	for r := 0; r < k; r++ {
+		b := make([]int, 0)
+		for i := r; i < n; i += k {
 			b = append(b, a[i])
 		}
-		// fprintf("group=%d b=%v\n", group, b)
 		sort.Ints(b)
-		for i := group; i < n; i += k {
+		// fprintf("b=%d\n", b)
+		for i := r; i < n; i += k {
+			// fprintf("b[%d/%d=%d]=%d\n", i, k, i/k, b[i/k])
 			a[i] = b[i/k]
 		}
 	}
-
+	// tmp := make([]int, n)
+	// copy(tmp, a)
 	if sort.IntsAreSorted(a) {
 		fprintln("Yes")
 	} else {
@@ -50,13 +56,6 @@ func bufInit() {
 	sc.Buffer(make([]byte, 128), 500000)
 	sc.Split(bufio.ScanWords)
 	wr = bufio.NewWriter(os.Stdout)
-}
-func scanInts(n int) []int {
-	a := make([]int, n)
-	for i := 0; i < n; i++ {
-		a[i] = scanInt()
-	}
-	return a
 }
 func scanInt() int {
 	sc.Scan()
