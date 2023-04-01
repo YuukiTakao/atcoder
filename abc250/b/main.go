@@ -4,28 +4,40 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
+	"strings"
 )
 
 func main() {
 	bufInit()
 	defer wr.Flush()
 	n := scanInt()
-	a := make(map[int]int, n)
-	for i := 0; i < n; i++ {
-		a[scanInt()]++
+	a := scanInt()
+	b := scanInt()
+
+	x := make([][]byte, a*n)
+	for i := 0; i < a*n; i++ {
+		x[i] = make([]byte, b*n)
 	}
-	sortedKey := make([]int, 0, n)
-	for i := range a {
-		sortedKey = append(sortedKey, i)
-	}
-	sort.Sort(sort.Reverse(sort.IntSlice(sortedKey)))
-	for len(sortedKey) < n {
-		sortedKey = append(sortedKey, 0)
-	}
-	for _, v := range sortedKey {
-		fprintln(a[v])
+	white := strings.Repeat(".", b)
+	black := strings.Repeat("#", b)
+	for i := 0; i < len(x); i++ {
+		for j := 0; j < n; j++ {
+			if j%2 == 0 {
+				if i/a%2 == 0 {
+					fprintf("%s", white)
+				} else {
+					fprintf("%s", black)
+				}
+			} else {
+				if i/a%2 == 0 {
+					fprintf("%s", black)
+				} else {
+					fprintf("%s", white)
+				}
+			}
+		}
+		fprintln()
 	}
 }
 

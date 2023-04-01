@@ -4,29 +4,48 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 )
+
+func GridDistanceManhattan(x1, y1, x2, y2 int) int {
+	return abs(x1-x2) + abs(y1-y2)
+}
+func abs(n int) int {
+	if n < 0 {
+		n *= -1
+	}
+	return n
+}
+
+type Point struct {
+	x int
+	y int
+}
 
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	a := make(map[int]int, n)
-	for i := 0; i < n; i++ {
-		a[scanInt()]++
+	h := scanInt()
+	w := scanInt()
+	// fprintf("%d %d\n", h, w)
+
+	s := make([][]byte, h)
+	for i := 0; i < h; i++ {
+		s[i] = []byte(scanText())
 	}
-	sortedKey := make([]int, 0, n)
-	for i := range a {
-		sortedKey = append(sortedKey, i)
+
+	op := make([]Point, 0, 2)
+	for i := 0; i < h; i++ {
+		for j := 0; j < w; j++ {
+			if s[i][j] == 'o' {
+				// fprintf("s[%d][%d]\n", i, j)
+				op = append(op, Point{x: i, y: j})
+			}
+		}
 	}
-	sort.Sort(sort.Reverse(sort.IntSlice(sortedKey)))
-	for len(sortedKey) < n {
-		sortedKey = append(sortedKey, 0)
-	}
-	for _, v := range sortedKey {
-		fprintln(a[v])
-	}
+	// fprintf("%v\n", op[0])
+	// fprintf("%v\n", op[1])
+	fprintf("%d\n", GridDistanceManhattan(op[0].x, op[0].y, op[1].x, op[1].y))
 }
 
 var wr *bufio.Writer

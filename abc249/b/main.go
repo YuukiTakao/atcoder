@@ -4,28 +4,37 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
+	"unicode"
 )
 
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	a := make(map[int]int, n)
-	for i := 0; i < n; i++ {
-		a[scanInt()]++
+	s := scanText()
+	m := make(map[rune]int, len(s))
+	for _, v := range s {
+		// fprintf("v=%d\n", v)
+		m[v]++
 	}
-	sortedKey := make([]int, 0, n)
-	for i := range a {
-		sortedKey = append(sortedKey, i)
+	upperExists := false
+	lowerExists := false
+	for i, v := range m {
+		if unicode.IsUpper(i) {
+			upperExists = true
+		}
+		if unicode.IsLower(i) {
+			lowerExists = true
+		}
+		if v >= 2 {
+			fprintln("No")
+			return
+		}
 	}
-	sort.Sort(sort.Reverse(sort.IntSlice(sortedKey)))
-	for len(sortedKey) < n {
-		sortedKey = append(sortedKey, 0)
-	}
-	for _, v := range sortedKey {
-		fprintln(a[v])
+	if upperExists && lowerExists {
+		fprintln("Yes")
+	} else {
+		fprintln("No")
 	}
 }
 

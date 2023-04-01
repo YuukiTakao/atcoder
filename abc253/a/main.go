@@ -8,25 +8,29 @@ import (
 	"strconv"
 )
 
+func Median(a []int) int {
+	n := len(a)
+	if n%2 == 0 {
+		return a[n/2-1] + a[n/2]/2
+	}
+	return a[n/2]
+}
+
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	a := make(map[int]int, n)
-	for i := 0; i < n; i++ {
-		a[scanInt()]++
+	a := scanInt()
+	b := scanInt()
+	c := scanInt()
+
+	sorted := []int{a, b, c}
+	sort.Ints(sorted)
+	if b == Median(sorted) {
+		fprintln("Yes")
+	} else {
+		fprintln("No")
 	}
-	sortedKey := make([]int, 0, n)
-	for i := range a {
-		sortedKey = append(sortedKey, i)
-	}
-	sort.Sort(sort.Reverse(sort.IntSlice(sortedKey)))
-	for len(sortedKey) < n {
-		sortedKey = append(sortedKey, 0)
-	}
-	for _, v := range sortedKey {
-		fprintln(a[v])
-	}
+
 }
 
 var wr *bufio.Writer
