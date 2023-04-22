@@ -10,15 +10,15 @@ import (
 func main() {
 	bufInit()
 	defer wr.Flush()
-	l := scanInt()
-	r := scanInt()
+	l := scanInt() - 1
+	r := scanInt() - 1
 
 	s := scanText()
-	fprintf("%s", s[0:l-1])
-	for i := r - 1; i >= l-1; i-- {
+	fprintf("%s", s[0:l])
+	for i := r; i >= l; i-- {
 		fprintf("%c", s[i])
 	}
-	fprintf("%s\n", s[r:])
+	fprintf("%s\n", s[r+1:])
 
 }
 
