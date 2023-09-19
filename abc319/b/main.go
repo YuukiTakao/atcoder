@@ -3,42 +3,72 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
 
-type AdjacencyList struct {
-	nodes   map[int][]int
-	paths   [][]int
-	path    []int
-	visited map[int]bool
-}
-
-func NewAdjacencyList(v_count int) AdjacencyList {
-	al := AdjacencyList{
-		nodes:   make(map[int][]int, v_count),
-		paths:   make([][]int, 0, 2),
-		path:    make([]int, 0, 2),
-		visited: make(map[int]bool, v_count),
+func DivisorEnumeration(n int) []int {
+	divs := make([]int, 0, 64)
+	for i := 1; i*i <= n; i++ {
+		if n%i == 0 {
+			divs = append(divs, i)
+			if i != n/i {
+				divs = append(divs, n/i)
+			}
+		}
 	}
-	return al
-}
-func (al *AdjacencyList) AppendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
+	return divs
 }
 
-func (al AdjacencyList) Push(key int, v int) {
-	al.nodes[key] = append(al.nodes[key], v)
+func filterUnder10(arr []int) []int {
+	ret := make([]int, 0, 10)
+	for i := 0; i < len(arr); i++ {
+		if arr[i] <= 9 {
+			ret = append(ret, arr[i])
+		}
+	}
+	return ret
 }
 
 func main() {
 	bufInit()
 	defer wr.Flush()
 	n := scanInt()
-	m := scanInt()
 
+	divs := filterUnder10(DivisorEnumeration(n))
+
+	// fprintf("%v\n", divs)
+	for i := 0; i <= n; i++ {
+		nums := make(map[int]bool, 10)
+		for _, j := range divs {
+			if i%(n/j) == 0 {
+				nums[j] = true
+			}
+		}
+		if len(nums) == 0 {
+			fprintf("%s", "-")
+		} else {
+			min := 100
+			for num := range nums {
+				if min > num {
+					min = num
+				}
+			}
+			fprintf("%d", min)
+		}
+	}
+	fprintln()
+}
+
+func minOf(vars ...int) int {
+	min := int(math.Pow10(18))
+	for _, v := range vars {
+		if min > v {
+			min = v
+		}
+	}
+	return min
 }
 
 var wr *bufio.Writer

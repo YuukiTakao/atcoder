@@ -4,41 +4,52 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 )
 
-type AdjacencyList struct {
-	nodes   map[int][]int
-	paths   [][]int
-	path    []int
-	visited map[int]bool
-}
-
-func NewAdjacencyList(v_count int) AdjacencyList {
-	al := AdjacencyList{
-		nodes:   make(map[int][]int, v_count),
-		paths:   make([][]int, 0, 2),
-		path:    make([]int, 0, 2),
-		visited: make(map[int]bool, v_count),
+func solve(n, d, p int) {
+	f := make([]int, n)
+	sumZero := 0
+	for i := 0; i < n; i++ {
+		f[i] = scanInt()
+		sumZero += f[i]
 	}
-	return al
-}
-func (al *AdjacencyList) AppendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
-}
+	sort.Sort(sort.Reverse(sort.IntSlice(f)))
 
-func (al AdjacencyList) Push(key int, v int) {
-	al.nodes[key] = append(al.nodes[key], v)
+	dp := make([]int, n+1)
+	dp[0] = sumZero
+	for i := 1; i <= n; i++ {
+		dp[i] = dp[i-1] - f[i-1]
+	}
+	// fprintf("%v\n", dp)
+	ans := dp[0]
+	j := 1
+	i := d
+	for {
+		if i > n {
+			i = n
+		}
+		sum := dp[i] + (p * j)
+		// fprintf("i=%d sum=%d dp[i]=%d ans=%d\n", i, sum, dp[i], ans)
+		if sum >= ans {
+			// fprintf("break sum%d ans=%d\n", sum, ans)
+			break
+		}
+		ans = sum
+		j++
+		i += d
+	}
+	fprintf("%d\n", ans)
 }
 
 func main() {
 	bufInit()
 	defer wr.Flush()
 	n := scanInt()
-	m := scanInt()
-
+	d := scanInt()
+	p := scanInt()
+	solve(n, d, p)
 }
 
 var wr *bufio.Writer

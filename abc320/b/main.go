@@ -3,42 +3,51 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
 
-type AdjacencyList struct {
-	nodes   map[int][]int
-	paths   [][]int
-	path    []int
-	visited map[int]bool
-}
-
-func NewAdjacencyList(v_count int) AdjacencyList {
-	al := AdjacencyList{
-		nodes:   make(map[int][]int, v_count),
-		paths:   make([][]int, 0, 2),
-		path:    make([]int, 0, 2),
-		visited: make(map[int]bool, v_count),
+func isPalindrome(s string) bool {
+	i, j := 0, len(s)-1
+	for i < j {
+		if s[i] != s[j] {
+			return false
+		}
+		i++
+		j--
 	}
-	return al
-}
-func (al *AdjacencyList) AppendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
-}
-
-func (al AdjacencyList) Push(key int, v int) {
-	al.nodes[key] = append(al.nodes[key], v)
+	return true
 }
 
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	m := scanInt()
+	s := scanText()
 
+	ans := 1
+	for i := range s {
+		j, k := i, len(s)-1
+
+		for j < k {
+			sub := s[j : k+1]
+			if isPalindrome(sub) {
+				ans = maxOf(ans, len(sub))
+			}
+			k--
+		}
+	}
+	fprintf("%d\n", ans)
+}
+
+func maxOf(vars ...int) int {
+	max := int(math.Pow10(18)) * -1
+	for _, v := range vars {
+		if max < v {
+			max = v
+		}
+	}
+	return max
 }
 
 var wr *bufio.Writer

@@ -1,5 +1,4 @@
 package main
-
 import (
 	"bufio"
 	"fmt"
@@ -13,8 +12,12 @@ type AdjacencyList struct {
 	path    []int
 	visited map[int]bool
 }
-
-func NewAdjacencyList(v_count int) AdjacencyList {
+func (al *AdjacencyList) AppendPaths() {
+	tmp := make([]int, len(al.path))
+	copy(tmp, al.path)
+	al.paths = append(al.paths, tmp)
+}
+func NewAdlist(v_count int) AdjacencyList {
 	al := AdjacencyList{
 		nodes:   make(map[int][]int, v_count),
 		paths:   make([][]int, 0, 2),
@@ -23,12 +26,6 @@ func NewAdjacencyList(v_count int) AdjacencyList {
 	}
 	return al
 }
-func (al *AdjacencyList) AppendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
-}
-
 func (al AdjacencyList) Push(key int, v int) {
 	al.nodes[key] = append(al.nodes[key], v)
 }
@@ -37,13 +34,11 @@ func main() {
 	bufInit()
 	defer wr.Flush()
 	n := scanInt()
-	m := scanInt()
-
+	
+	g := 
 }
-
 var wr *bufio.Writer
 var sc = bufio.NewScanner(os.Stdin)
-
 func fprintf(f string, a ...interface{}) {
 	fmt.Fprintf(wr, f, a...)
 }

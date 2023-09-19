@@ -44,7 +44,7 @@ func fprintf(f string, a ...interface{}) {
 func fprintln(a ...interface{}) {
 	fmt.Fprintln(wr, a...)
 }
-func fprint(f string, a ...interface{}) {
+func print(a ...interface{}) {
 	fmt.Fprint(wr, a...)
 }
 func bufInit() {

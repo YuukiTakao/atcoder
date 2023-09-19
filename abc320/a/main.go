@@ -3,42 +3,22 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
 
-type AdjacencyList struct {
-	nodes   map[int][]int
-	paths   [][]int
-	path    []int
-	visited map[int]bool
+func Pow(x, y int) int {
+	res := int(math.Pow(float64(x), float64(y)))
+	return res
 }
-
-func NewAdjacencyList(v_count int) AdjacencyList {
-	al := AdjacencyList{
-		nodes:   make(map[int][]int, v_count),
-		paths:   make([][]int, 0, 2),
-		path:    make([]int, 0, 2),
-		visited: make(map[int]bool, v_count),
-	}
-	return al
-}
-func (al *AdjacencyList) AppendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
-}
-
-func (al AdjacencyList) Push(key int, v int) {
-	al.nodes[key] = append(al.nodes[key], v)
-}
-
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	m := scanInt()
+	a := scanInt()
+	b := scanInt()
 
+	fprintf("%d\n", Pow(a, b)+Pow(b, a))
 }
 
 var wr *bufio.Writer

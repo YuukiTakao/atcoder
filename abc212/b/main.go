@@ -7,38 +7,30 @@ import (
 	"strconv"
 )
 
-type AdjacencyList struct {
-	nodes   map[int][]int
-	paths   [][]int
-	path    []int
-	visited map[int]bool
-}
-
-func NewAdjacencyList(v_count int) AdjacencyList {
-	al := AdjacencyList{
-		nodes:   make(map[int][]int, v_count),
-		paths:   make([][]int, 0, 2),
-		path:    make([]int, 0, 2),
-		visited: make(map[int]bool, v_count),
-	}
-	return al
-}
-func (al *AdjacencyList) AppendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
-}
-
-func (al AdjacencyList) Push(key int, v int) {
-	al.nodes[key] = append(al.nodes[key], v)
-}
-
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	m := scanInt()
+	xStr := []byte(scanText())
 
+	if xStr[0] == xStr[1] && xStr[1] == xStr[2] && xStr[2] == xStr[3] {
+		fprintln("Weak")
+		return
+	}
+
+	x := make([]int, 4)
+	for i, v := range xStr {
+		s, _ := strconv.Atoi(string(v))
+		x[i] = s
+	}
+
+	for i := 1; i < len(x); i++ {
+		if (x[i-1]+1)%10 != x[i] {
+			fprintln("Strong")
+			return
+		}
+	}
+
+	fprintln("Weak")
 }
 
 var wr *bufio.Writer
@@ -58,6 +50,7 @@ func bufInit() {
 	sc.Split(bufio.ScanWords)
 	wr = bufio.NewWriter(os.Stdout)
 }
+
 func scanInts(n int) []int {
 	a := make([]int, n)
 	for i := 0; i < n; i++ {

@@ -7,38 +7,25 @@ import (
 	"strconv"
 )
 
-type AdjacencyList struct {
-	nodes   map[int][]int
-	paths   [][]int
-	path    []int
-	visited map[int]bool
-}
-
-func NewAdjacencyList(v_count int) AdjacencyList {
-	al := AdjacencyList{
-		nodes:   make(map[int][]int, v_count),
-		paths:   make([][]int, 0, 2),
-		path:    make([]int, 0, 2),
-		visited: make(map[int]bool, v_count),
-	}
-	return al
-}
-func (al *AdjacencyList) AppendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
-}
-
-func (al AdjacencyList) Push(key int, v int) {
-	al.nodes[key] = append(al.nodes[key], v)
-}
-
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanInt()
-	m := scanInt()
+	s := scanText()
 
+	m := make(map[string]int, 10)
+
+	m["tourist"] = 3858
+	m["ksun48"] = 3679
+	m["Benq"] = 3658
+	m["Um_nik"] = 3648
+	m["apiad"] = 3638
+	m["Stonefeang"] = 3630
+	m["ecnerwala"] = 3613
+	m["mnbvmar"] = 3555
+	m["newbiedmy"] = 3516
+	m["semiexp"] = 3481
+
+	fprintf("%d\n", m[s])
 }
 
 var wr *bufio.Writer

@@ -3,35 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
+	"sort"
 	"strconv"
 )
-
-type AdjacencyList struct {
-	nodes   map[int][]int
-	paths   [][]int
-	path    []int
-	visited map[int]bool
-}
-
-func NewAdjacencyList(v_count int) AdjacencyList {
-	al := AdjacencyList{
-		nodes:   make(map[int][]int, v_count),
-		paths:   make([][]int, 0, 2),
-		path:    make([]int, 0, 2),
-		visited: make(map[int]bool, v_count),
-	}
-	return al
-}
-func (al *AdjacencyList) AppendPaths() {
-	tmp := make([]int, len(al.path))
-	copy(tmp, al.path)
-	al.paths = append(al.paths, tmp)
-}
-
-func (al AdjacencyList) Push(key int, v int) {
-	al.nodes[key] = append(al.nodes[key], v)
-}
 
 func main() {
 	bufInit()
@@ -39,6 +15,52 @@ func main() {
 	n := scanInt()
 	m := scanInt()
 
+	a := make([]int, n)
+	for i := 0; i < n; i++ {
+		a[i] = scanInt()
+	}
+	b := make([]int, m)
+	for i := 0; i < m; i++ {
+		b[i] = scanInt()
+	}
+
+	sort.Ints(a)
+	sort.Ints(b)
+	// fprintf("a=%v\nb=%v\n", a, b)
+	ans := int(math.Pow10(18))
+	for i := 0; i < n; i++ {
+		lo, hi := -1, len(b)-1
+		for (hi - lo) > 1 {
+			mid := lo + (hi-lo)/2
+			if b[mid] >= a[i] {
+				hi = mid
+			} else {
+				lo = mid
+			}
+			// fprintf("mid=%d lo=%d hi=%d\n", mid, lo, hi)
+		}
+		ans = minOf(ans, abs(b[hi]-a[i]))
+		if 0 <= hi-1 {
+			ans = minOf(ans, abs(b[hi-1]-a[i]))
+		}
+		// fprintf("ans=%d, b[%d]=%d a[%d]=%d\n", ans, hi, b[hi], i, a[i])
+	}
+	fprintf("%d\n", ans)
+}
+func minOf(vars ...int) int {
+	min := int(math.Pow10(18))
+	for _, v := range vars {
+		if min > v {
+			min = v
+		}
+	}
+	return min
+}
+func abs(n int) int {
+	if n < 0 {
+		n *= -1
+	}
+	return n
 }
 
 var wr *bufio.Writer
