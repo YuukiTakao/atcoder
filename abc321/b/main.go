@@ -23,11 +23,8 @@ func main() {
 		b = append(b, i)
 		sort.Ints(b)
 		sum := 0
-		for j, v := range b {
-			if j == 0 || j == len(b)-1 {
-				continue
-			}
-			sum += v
+		for i := 1; i < len(b)-1; i++ {
+			sum += b[i]
 		}
 		if x <= sum {
 			fprintf("%d\n", i)

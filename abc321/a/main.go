@@ -10,9 +10,15 @@ import (
 func main() {
 	bufInit()
 	defer wr.Flush()
-	n := scanText()
-	for i := 1; i < len(n); i++ {
-		if n[i-1] <= n[i] {
+	n := scanInt()
+
+	digits := make([]int, 0)
+	for i := 0; n > 0; i++ {
+		digits = append(digits, n%10)
+		n /= 10
+	}
+	for i := 0; i+1 < len(digits); i++ {
+		if digits[i] >= digits[i+1] {
 			fprintln("No")
 			return
 		}

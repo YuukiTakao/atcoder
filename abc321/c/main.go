@@ -12,7 +12,7 @@ func main() {
 	bufInit()
 	defer wr.Flush()
 	k := scanInt()
-	a := make([]int, 0, 1024)
+	a := make([]int, 0)
 	for s := 0; s < 1<<10; s++ {
 		x := 0
 		for i := 9; i >= 0; i-- {
